@@ -1,8 +1,8 @@
-
-export default function HomePage(){
-    return(
+import Header from "../component/HeaderComponent"
+export default function HomePage() {
+    return (
         <div>
-        This is HomePage
+            <Header></Header>
         </div>
     )
 }
