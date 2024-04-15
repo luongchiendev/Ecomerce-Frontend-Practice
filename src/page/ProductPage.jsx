@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 // import { useNavigate } from 'react-router-dom';
 import FormProduct from '../component/FormProduct';
+import FileUpload from '../component/ImportFile';
+import ExportButton from '../component/ExportFile';
 
 
 function ProductPage() {
@@ -127,6 +129,8 @@ function ProductPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 sx={{ mb: 2 }}
             />
+            <FileUpload></FileUpload>
+            <ExportButton></ExportButton>
             <Button variant="contained" color="primary" onClick={handleSearch} sx={{ mr: 2 }}>
                 Search
             </Button>
