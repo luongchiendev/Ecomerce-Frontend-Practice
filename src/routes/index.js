@@ -1,8 +1,10 @@
+import CartPage from "../page/CartPage";
 import HomePage from "../page/HomePage";
 import LoginPage from "../page/LoginPage";
+import ProductDetailPage from "../page/ProductDetailPage";
 import ProductPage from "../page/ProductPage";
 import SignUp from "../page/SignUp";
-
+import TestPagePractice from "../page/TestPagePractice";
 export const routes = [
     {
         path: "/",
@@ -19,5 +21,18 @@ export const routes = [
     {
         path: "/signup",
         page: SignUp
+    },
+    {
+        path: "/practice",
+        page: TestPagePractice
+    },
+    {
+        path: "/cart",
+        page: CartPage
+    },
+    {
+        path: "/product/:id",
+        page: ProductDetailPage
     }
+
 ]

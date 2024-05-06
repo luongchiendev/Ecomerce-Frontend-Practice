@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Container, Typography, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 // import { useNavigate } from 'react-router-dom';
 import FormProduct from '../component/FormProduct';
 import FileUpload from '../component/ImportFile';
@@ -13,6 +13,8 @@ function ProductPage() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedProduct, setEditedProduct] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedProduct, setSelectedProduct] = useState('');
     // const navigate = useNavigate();
     // const handleEditClick = (product) => {
     //     setEditedProduct({ ...product });
@@ -22,9 +24,9 @@ function ProductPage() {
         fetchProducts();
     }, []);
 
-    const fetchProducts = async (page = 0, limit = 0, sort = '', filter = '') => {
+    const fetchProducts = async (page = 0, limit = 0, sort = '', search = '') => {
         try {
-            const response = await fetch(`http://localhost:3056/v1/api/product/getall/?limit=${limit}&page=${page}&sort=${sort}&filter=${filter}`);
+            const response = await fetch(`http://localhost:3056/v1/api/product/getall/?limit=${limit}&page=${page}&sort=${sort}&search=${search}`);
             const data = await response.json();
             console.log('Fetched products:', data);
 
@@ -90,7 +92,13 @@ function ProductPage() {
             return updatedProduct;
         });
     };
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+    };
 
+    const handleProductChange = (e) => {
+        setSelectedProduct(e.target.value);
+    };
 
     const handleEditSubmit = async () => {
         try {
@@ -129,6 +137,34 @@ function ProductPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 sx={{ mb: 2 }}
             />
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                    labelId="category-label"
+                    id="category-select"
+                    value={selectedCategory}
+                    label="Category"
+                    onChange={handleCategoryChange}
+                >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="kid">Kid</MenuItem>
+                    <MenuItem value="women">Women</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="product-label">Product</InputLabel>
+                <Select
+                    labelId="product-label"
+                    id="product-select"
+                    value={selectedProduct}
+                    label="Product"
+                    onChange={handleProductChange}
+                >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="sneaker">Sneaker</MenuItem>
+                    <MenuItem value="sandal">Sandal</MenuItem>
+                </Select>
+            </FormControl>
             <FileUpload></FileUpload>
             <ExportButton></ExportButton>
             <Button variant="contained" color="primary" onClick={handleSearch} sx={{ mr: 2 }}>
@@ -147,6 +183,8 @@ function ProductPage() {
                             <TableCell>Name</TableCell>
                             <TableCell>Thumbnail</TableCell>
                             <TableCell>Description</TableCell>
+                            <TableCell>Category Type</TableCell>
+                            <TableCell>Product Type</TableCell>
                             <TableCell>Price</TableCell>
                             <TableCell>Quantity</TableCell>
                             <TableCell>Actions</TableCell>
@@ -161,6 +199,8 @@ function ProductPage() {
                                 <TableCell>{product[3]}</TableCell>
                                 <TableCell>{product[4]}</TableCell>
                                 <TableCell>{product[5]}</TableCell>
+                                <TableCell>{product[6]}</TableCell>
+                                <TableCell>{product[7]}</TableCell>
                                 <TableCell>
                                     <Button variant="outlined" color="primary" onClick={() => handleEditProduct(product)}>Edit</Button>
                                     <Button variant="outlined" color="secondary" onClick={() => handleDeleteProduct(product[0])}>Delete</Button>

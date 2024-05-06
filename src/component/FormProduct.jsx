@@ -8,6 +8,8 @@ export default function FormProduct() {
         name: '',
         thumb: '',
         description: '',
+        category_type: '',
+        product_type: '',
         price: 0,
         quantity: 0
     });
@@ -40,6 +42,8 @@ export default function FormProduct() {
                     name: '',
                     thumb: '',
                     description: '',
+                    category_type: '',
+                    product_type: '',
                     price: 0,
                     quantity: 0
                 });
