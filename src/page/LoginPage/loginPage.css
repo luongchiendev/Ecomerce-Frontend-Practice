@@ -1,0 +1,11 @@
+.whitespace {
+    margin-top: 100px;
+    text-align: center;
+    letter-spacing: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.whitespace p {
+    letter-spacing: normal;
+    font-weight: 100;
+}

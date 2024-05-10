@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
+import '../FormLogin/formLogin.css'
 
 function FormLogin() {
   const navigate = useNavigate();
@@ -20,22 +21,27 @@ function FormLogin() {
     formState: { errors },
   } = useForm();
 
+  //Take access token from local storage
+  const saveAccessTokenToLocalStorage = (accessToken) => {
+    localStorage.setItem('accessToken', accessToken);
+  }
+
+
   const onSubmit = async (data) => {
     try {
       // Gọi API đăng nhập
-      const apiKey = 'a5da9dfc4d88c0671a183393f9890132c5ce0598e8a72e7a535bbe558fd563d3628498f90ed1e66702738ce9346ae502322b43bac39e23cfcf2df5e709b25444';
+
       const response = await axios.post("http://localhost:3056/v1/api/shop/login", {
         email: data.email,
         password: data.password,
-      }, {
-        headers: {
-          'x-api-key': apiKey,
-        }
-      });
-
+      }
+      )
       // Xử lý phản hồi từ server
       if (response.status === 200) {
         console.log("Đăng nhập thành công!");
+        const accessToken = response.data.metadata.tokens.accessToken;
+        saveAccessTokenToLocalStorage(accessToken);
+        console.log(accessToken)
         // Chuyển hướng người dùng sau khi đăng nhập thành công (nếu cần)
 
         navigate('/product');
@@ -57,7 +63,7 @@ function FormLogin() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: "400px", margin: "auto" }}>
-        <FormControl error={!!errors.email} fullWidth margin="normal">
+        <FormControl error={!!errors.email} label="outlined" fullWidth margin="normal">
           <FormLabel htmlFor="email">Email</FormLabel>
           <Input
             id="email"
@@ -84,8 +90,10 @@ function FormLogin() {
           />
           <FormHelperText>{errors.password?.message}</FormHelperText>
         </FormControl>
+        <div className="btn-login">
+          <Button type="submit" variant="outlined" color="primary" style={{ marginTop: "16px" }}>Đăng nhập</Button>
+        </div>
 
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: "16px" }}>Đăng nhập</Button>
       </form>
 
       {/* Snackbar để hiển thị thông báo */}
